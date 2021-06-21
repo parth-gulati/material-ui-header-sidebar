@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   fade,
   makeStyles,
@@ -38,46 +39,107 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function Header() {
+  let history = useHistory();
   //classes for styling
   const classes = useStyles();
 
   //anchors for dropdown menu
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const isMenuOpen = Boolean(anchorEl);
+  const [anchorEl1, setAnchorEl1] = React.useState<null | HTMLElement>(null);
+  const isMenu1Open = Boolean(anchorEl1);
 
   //onClick handle Profile Menu
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl1(event.currentTarget);
   };
 
+  //onClose Profile Menu
+  const handleMenuClose = () => {
+    setAnchorEl1(null);
+  };
+
+  //handle logout
+  const handleLogout = () => {
+    console.log("User Logged Out");
+  };
+
+  //handle checkout
+  const handleCheckout = () => {
+    console.log("User Checked Out");
+  };
+
+  const menuId = "account-profile-menu";
+
+  const profileMenu = (
+    <Menu
+      anchorEl={anchorEl1}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMenu1Open}
+      onClose={handleMenuClose}
+    >
+      <MenuItem
+        onClick={(e) => {
+          e.preventDefault();
+          handleMenuClose();
+          history.push("/profile");
+        }}
+      >
+        Profile
+      </MenuItem>
+      <MenuItem
+        onClick={(e) => {
+          e.preventDefault();
+          handleMenuClose();
+          handleLogout();
+        }}
+      >
+        Logout
+      </MenuItem>
+      <MenuItem
+        onClick={(e) => {
+          e.preventDefault();
+          handleMenuClose();
+          handleCheckout();
+        }}
+      >
+        Checkout
+      </MenuItem>
+    </Menu>
+  );
+
   return (
-    <AppBar className={classes.header} position="static">
-      <Toolbar>
-        <a href="#">
-          <img src={logo} className={classes.logo} />
-        </a>
-        <Typography className={classes.heading} variant="h6" noWrap>
-          &nbsp;DIGITAL PAANI
-        </Typography>
-        <div style={{ flexGrow: 1 }} />
-        <div>
-          <IconButton aria-label="show 17 new notifications" color="inherit">
-            <Badge badgeContent={17} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton
-            edge="end"
-            aria-label="account of current user"
-            //aria-controls={menuId}
-            aria-haspopup="true"
-            //onClick={handleProfileMenuOpen}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-        </div>
-      </Toolbar>
-    </AppBar>
+    <>
+      <AppBar className={classes.header} position="static">
+        <Toolbar>
+          <a href="#">
+            <img src={logo} className={classes.logo} />
+          </a>
+          <Typography className={classes.heading} variant="h6" noWrap>
+            &nbsp;DIGITAL PAANI
+          </Typography>
+          <div style={{ flexGrow: 1 }} />
+          <div>
+            <IconButton aria-label="show 17 new notifications" color="inherit">
+              <Badge badgeContent={17} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </div>
+        </Toolbar>
+      </AppBar>
+      {profileMenu}
+    </>
   );
 }

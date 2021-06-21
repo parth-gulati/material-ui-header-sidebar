@@ -13,11 +13,11 @@ import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import PersonIcon from "@material-ui/icons/Person";
+import CheckIcon from "@material-ui/icons/Check";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import MoreIcon from "@material-ui/icons/MoreVert";
 import logo from "../icon.svg";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -38,23 +38,36 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Header() {
+export default function Header(props: any) {
   let history = useHistory();
   //classes for styling
   const classes = useStyles();
+  const profileMenuId = "account-profile-menu";
+  const notificationsMenuId = "account-notifications";
 
   //anchors for dropdown menu
   const [anchorEl1, setAnchorEl1] = React.useState<null | HTMLElement>(null);
+  const [anchorEl2, setAnchorEl2] = React.useState<null | HTMLElement>(null);
   const isMenu1Open = Boolean(anchorEl1);
+  const isMenu2Open = Boolean(anchorEl2);
 
   //onClick handle Profile Menu
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl1(event.currentTarget);
   };
 
+  const handleNotificationMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl2(event.currentTarget);
+  };
+
   //onClose Profile Menu
-  const handleMenuClose = () => {
+  const handleMenu1Close = () => {
     setAnchorEl1(null);
+  };
+
+  //onClose Notifications Menu
+  const handleMenu2Close = () => {
+    setAnchorEl2(null);
   };
 
   //handle logout
@@ -67,44 +80,68 @@ export default function Header() {
     console.log("User Checked Out");
   };
 
-  const menuId = "account-profile-menu";
-
+  //Profile Dropdown
   const profileMenu = (
     <Menu
       anchorEl={anchorEl1}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={menuId}
+      id={profileMenuId}
       keepMounted
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenu1Open}
-      onClose={handleMenuClose}
+      onClose={handleMenu1Close}
     >
       <MenuItem
         onClick={(e) => {
           e.preventDefault();
-          handleMenuClose();
+          handleMenu1Close();
           history.push("/profile");
         }}
       >
-        Profile
+        <PersonIcon />
+        &nbsp; Profile
       </MenuItem>
       <MenuItem
         onClick={(e) => {
           e.preventDefault();
-          handleMenuClose();
+          handleMenu1Close();
           handleLogout();
         }}
       >
-        Logout
+        <ExitToAppIcon />
+        &nbsp; Logout
       </MenuItem>
       <MenuItem
         onClick={(e) => {
           e.preventDefault();
-          handleMenuClose();
+          handleMenu1Close();
           handleCheckout();
         }}
       >
-        Checkout
+        <CheckIcon />
+        &nbsp; Checkout
+      </MenuItem>
+    </Menu>
+  );
+
+  //Notifications Dropdown
+  const notificationMenu = (
+    <Menu
+      anchorEl={anchorEl2}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      id={notificationsMenuId}
+      keepMounted
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
+      open={isMenu2Open}
+      onClose={handleMenu2Close}
+    >
+      <MenuItem
+        onClick={(e) => {
+          e.preventDefault();
+          handleMenu1Close();
+        }}
+      >
+        &nbsp; No New Notifications
       </MenuItem>
     </Menu>
   );
@@ -121,15 +158,21 @@ export default function Header() {
           </Typography>
           <div style={{ flexGrow: 1 }} />
           <div>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
+            <IconButton
+              aria-label="show new notifications"
+              aria-controls={notificationsMenuId}
+              color="inherit"
+              aria-haspopup="true"
+              onClick={handleNotificationMenuOpen}
+            >
+              <Badge badgeContent={props.notifications} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
             <IconButton
               edge="end"
               aria-label="account of current user"
-              aria-controls={menuId}
+              aria-controls={profileMenuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
               color="inherit"
@@ -140,6 +183,11 @@ export default function Header() {
         </Toolbar>
       </AppBar>
       {profileMenu}
+      {notificationMenu}
     </>
   );
 }
+
+Header.defaultProps = {
+  notifications: 0,
+};

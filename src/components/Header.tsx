@@ -7,6 +7,9 @@ import {
   createStyles,
 } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
+import clsx from "clsx";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
@@ -20,14 +23,35 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import logo from "../icon.svg";
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    appBarShift: {
+      marginLeft: drawerWidth,
+      width: `calc(100% - ${drawerWidth}px)`,
+      transition: theme.transitions.create(["width", "margin"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    hide: {
+      display: "none",
+    },
     logo: {
       maxHeight: "60px",
     },
     header: {
       backgroundColor: "white",
       color: "#828181",
+      zIndex: theme.zIndex.drawer + 1,
+      transition: theme.transitions.create(["width", "margin"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
     },
     heading: {
       paddingTop: "5px",
@@ -148,8 +172,25 @@ export default function Header(props: any) {
 
   return (
     <>
-      <AppBar className={classes.header} position="static">
+      <CssBaseline />
+      <AppBar
+        className={clsx(classes.header, {
+          [classes.appBarShift]: props.open,
+        })}
+        position="fixed"
+      >
         <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={props.handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, {
+              [classes.hide]: props.open,
+            })}
+          >
+            <MenuIcon />
+          </IconButton>
           <a href="#">
             <img src={logo} className={classes.logo} />
           </a>

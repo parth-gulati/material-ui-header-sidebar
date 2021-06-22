@@ -13,10 +13,13 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
+import ArrowForwardIosOutlinedIcon from '@material-ui/icons/ArrowForwardIosOutlined';
 import MailIcon from "@material-ui/icons/Mail";
 import { useStyles } from '../styles/sidebar-styles'
+import { useHistory } from "react-router";
 
 export default function MiniDrawer(props: any) {
+  const history = useHistory();
   const classes = useStyles();
   const theme = useTheme();
 
@@ -46,12 +49,15 @@ export default function MiniDrawer(props: any) {
         </div>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
+          {(props.checkedIn).map((obj: any, index: any) => (
+            <ListItem button key={obj.name} onClick={(e) => {
+              e.preventDefault();
+              history.push(obj.link);
+            }}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <ArrowForwardIosOutlinedIcon /> : <ArrowForwardIosOutlinedIcon />}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={obj.name} />
             </ListItem>
           ))}
         </List>

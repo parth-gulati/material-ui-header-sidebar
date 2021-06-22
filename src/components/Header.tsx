@@ -22,45 +22,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import logo from "../icon.svg";
-
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    appBarShift: {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(["width", "margin"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    hide: {
-      display: "none",
-    },
-    logo: {
-      maxHeight: "60px",
-    },
-    header: {
-      backgroundColor: "white",
-      color: "#828181",
-      zIndex: theme.zIndex.drawer + 1,
-      transition: theme.transitions.create(["width", "margin"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    heading: {
-      paddingTop: "5px",
-      letterSpacing: "3px",
-      marginLeft: "20px",
-      fontFamily: "Raleway",
-    },
-  })
-);
+import { useStyles } from '../styles/header-styles';
 
 export default function Header(props: any) {
   let history = useHistory();

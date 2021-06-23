@@ -1,9 +1,9 @@
 import {
-    createStyles,
-    makeStyles,
-    useTheme,
-    Theme,
-  } from "@material-ui/core/styles";
+  createStyles,
+  makeStyles,
+  useTheme,
+  Theme,
+} from "@material-ui/core/styles";
 
 const drawerWidth = 240;
 
@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
+    grow: {
+      flexGrow: 1,
+    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
@@ -24,7 +27,10 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "none",
     },
     logo: {
-      maxHeight: "60px",
+      display: "none",
+      [theme.breakpoints.up("md")]: {
+        maxHeight: "60px",
+      },
     },
     header: {
       backgroundColor: "white",
@@ -41,7 +47,19 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: "20px",
       fontFamily: "Raleway",
     },
+    sectionMobile: {
+      display: "flex",
+      [theme.breakpoints.up("md")]: {
+        display: "none",
+      },
+    },
+    sectionDesktop: {
+      display: "none",
+      [theme.breakpoints.up("md")]: {
+        display: "flex",
+      },
+    },
   })
 );
 
-export {useStyles}
+export { useStyles };

@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
     logo: {
       display: "none",
       [theme.breakpoints.up("md")]: {
+        display: "block",
         maxHeight: "60px",
       },
     },

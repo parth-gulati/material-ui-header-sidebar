@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useContext} from "react";
+import SidebarContext from "../context/SidebarContext";
 import clsx from "clsx";
 import {
   useTheme
@@ -22,24 +23,25 @@ export default function MiniDrawer(props: any) {
   const history = useHistory();
   const classes = useStyles();
   const theme = useTheme();
+  const {open, setOpen} = useContext(SidebarContext);
 
   return (
     <>
       <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
-          [classes.drawerOpen]: props.open,
-          [classes.drawerClose]: !props.open,
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
         })}
         classes={{
           paper: clsx({
-            [classes.drawerOpen]: props.open,
-            [classes.drawerClose]: !props.open,
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
           }),
         }}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={props.handleDrawerClose}>
+          <IconButton onClick={()=>{setOpen(false)}}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (

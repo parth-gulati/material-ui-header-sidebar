@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useHistory } from "react-router-dom";
 import {
   fade,
@@ -6,6 +6,7 @@ import {
   Theme,
   createStyles,
 } from "@material-ui/core/styles";
+import SidebarContext from "../context/SidebarContext";
 import AppBar from "@material-ui/core/AppBar";
 import clsx from "clsx";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -36,6 +37,9 @@ export default function Header(props: any) {
   const [anchorEl2, setAnchorEl2] = React.useState<null | HTMLElement>(null);
   const isMenu1Open = Boolean(anchorEl1);
   const isMenu2Open = Boolean(anchorEl2);
+
+  //Context for Sidebar
+  const {open, setOpen} = useContext(SidebarContext);
 
   //onClick handle Profile Menu
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -137,7 +141,7 @@ export default function Header(props: any) {
       <CssBaseline />
       <AppBar
         className={clsx(classes.header, {
-          [classes.appBarShift]: props.open,
+          [classes.appBarShift]: open,
         })}
         position="fixed"
       >
@@ -145,10 +149,10 @@ export default function Header(props: any) {
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={props.handleDrawerOpen}
+            onClick={()=>{setOpen(true)}}
             edge="start"
             className={clsx(classes.menuButton, {
-              [classes.hide]: props.open,
+              [classes.hide]: open,
             })}
           >
             <MenuIcon />

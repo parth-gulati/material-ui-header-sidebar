@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "none",
       [theme.breakpoints.up("md")]: {
         display: "block",
-        maxHeight: "60px",
+        maxHeight: "50px",
       },
     },
     header: {

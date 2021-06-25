@@ -47,6 +47,7 @@ export default function ForgotPassword() {
           label="Email"
           variant="outlined"
           error={emailError.length> 0 ? true : false}
+          //Remove helperText if error not wanted as subtext and call toast("Error") instead in validateInput 
           helperText={emailError.length > 0 ? emailError : null}
           value={email}
           onChange={(e)=>{setEmail(e.target.value)}}

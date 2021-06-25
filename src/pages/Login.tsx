@@ -59,6 +59,7 @@ export default function Login() {
           label="Email"
           variant="outlined"
           error={emailError.length> 0 ? true : false}
+          //Remove helperText if error not wanted as subtext and call toast("Error") instead in validateInput
           helperText={emailError.length > 0 ? emailError : null}
           value={email}
           onChange={(e)=>{setEmail(e.target.value)}}
@@ -71,6 +72,7 @@ export default function Login() {
           value={password}
           type="password"
           error={passwordError.length> 0 ? true : false}
+          //Remove helperText if error not wanted as subtext and call toast("Error") instead in validateInput
           helperText={passwordError.length > 0 ? passwordError : null}
           onChange={(e)=>{setPassword(e.target.value)}}
           id="password"
